@@ -8,6 +8,7 @@ module.exports = (app) => {
         res.json(friends);
     });
 
+    //API post requests
     app.post("/api/friends", (req, res) => {
 
     });
