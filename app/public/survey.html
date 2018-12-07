@@ -6,22 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Friend Finder - Survey</title>
+    <!-- Include Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
+    <!-- Include JQuery -->
     <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Include Bootstrap Specific JQuery -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 
 <body>
     <div class="container">
+        <!-- Survey -->
         <h2>Survey Questions</h2>
         <hr>
+        <!-- User Info -->
         <h3><strong>About You</strong></h3>
         <section id="survey-form">
             <h4>Name (Required)</h4>
             <input type="text" id="name" class="form-control" required />
             <h4>Link to Photo Image (Required)</h4>
             <input type="text" id="photo" class="form-control" required />
+            <!-- Question 1 -->
             <h3><strong>Question 1</strong></h3>
             <h4>The Chicago Cubs are the Best Team in the MLB</h4>
             <div class="form-group">
@@ -35,6 +41,7 @@
                     <option value="5">5 (Strongly Agree)</option>
                 </select>
             </div>
+            <!-- Question 2 -->
             <h3><strong>Question 2</strong></h3>
             <h4>Joe Maddon is the Best Manager to Ever Manage the Chicago Cubs</h4>
             <div class="form-group">
@@ -48,6 +55,7 @@
                     <option value="5">5 (Strongly Agree)</option>
                 </select>
             </div>
+            <!-- Question 3 -->
             <h3><strong>Question 3</strong></h3>
             <h4>Wilson Contreras is the Best Catcher in the MLB</h4>
             <div class="form-group">
@@ -61,6 +69,7 @@
                     <option value="5">5 (Strongly Agree)</option>
                 </select>
             </div>
+            <!-- Question 4 -->
             <h3><strong>Question 4</strong></h3>
             <h4>Javy Baez is an Multi-Talented Unstoppable Beast</h4>
             <div class="form-group">
@@ -74,6 +83,7 @@
                     <option value="5">5 (Strongly Agree)</option>
                 </select>
             </div>
+            <!-- Question 5 -->
             <h3><strong>Question 5</strong></h3>
             <h4>The Chicago Cubs Will Win The World Series Again Next Year</h4>
             <div class="form-group">
@@ -87,6 +97,7 @@
                     <option value="5">5 (Strongly Agree)</option>
                 </select>
             </div>
+            <!-- Question 6 -->
             <h3><strong>Question 6</strong></h3>
             <h4>The Chicago Blackhawks are the Best Hockey Team in the NHL</h4>
             <div class="form-group">
@@ -100,6 +111,7 @@
                     <option value="5">5 (Strongly Agree)</option>
                 </select>
             </div>
+            <!-- Question 7 -->
             <h3><strong>Question 7</strong></h3>
             <h4>The Chicago Blackhawks Should Have Fired Stan Bowman Instead of Coach Q</h4>
             <div class="form-group">
@@ -113,6 +125,7 @@
                     <option value="5">5 (Strongly Agree)</option>
                 </select>
             </div>
+            <!-- Question 8 -->
             <h3><strong>Question 8</strong></h3>
             <h4>Stan Bowman Should Have Never Traded Panarin</h4>
             <div class="form-group">
@@ -126,6 +139,7 @@
                     <option value="5">5 (Strongly Agree)</option>
                 </select>
             </div>
+            <!-- Question 9 -->
             <h3><strong>Question 9</strong></h3>
             <h4>Corey Crawford is the Best Netminder in the NHL</h4>
             <div class="form-group">
@@ -139,6 +153,7 @@
                     <option value="5">5 (Strongly Agree)</option>
                 </select>
             </div>
+            <!-- Question 10 -->
             <h3><strong>Question 10</strong></h3>
             <h4>Chicago Sports Fans Are the Most Loyal</h4>
             <div class="form-group">
@@ -155,6 +170,7 @@
         </section>
         <button type="submit" class="btn btn-primary btn-lg btn-block" id="submit">Submit</button>
 
+        <!-- Matched Friend Modal -->
         <div id="results-modal" class="modal fade" tabindex="-1" role="dialog" style="display: none;">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -174,6 +190,8 @@
                 </div>
             </div>
         </div>
+
+        <!-- Form Validation Error Modal -->
         <div id="error-modal" class="modal fade" tabindex="-1" role="dialog" style="display: none;">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -192,8 +210,11 @@
 
 
     <script type="text/javascript">
+        // JQuery on.click event to handle getting data input by user into survey
         $("#submit").on("click", (event) => {
             event.preventDefault();
+
+            //function to validate form data
             const validateForm = () => {
                 let isValid = true;
                 $(".form-control").each(function () {
@@ -203,6 +224,8 @@
                 });
                 return isValid;
             }
+
+            //function to reset survey input
             const resetInput = () => {
                 $("#name").val("");
                 $("#photo").val("");
@@ -218,6 +241,7 @@
                 $("#q10").val("");
             }
 
+            //if data passes form validation store input into variables in order to create the newFriend
             if (validateForm()) {
                 const a1 = parseInt($("#q1").val().trim());
                 const a2 = parseInt($("#q2").val().trim());
@@ -230,6 +254,7 @@
                 const a9 = parseInt($("#q9").val().trim());
                 const a10 = parseInt($("#q10").val().trim());
 
+                //create newFriend object
                 const newFriend = {
                     name: $("#name").val().trim(),
                     photo: $("#photo").val().trim(),
@@ -247,13 +272,8 @@
                     ]
 
                 };
-
-                console.log('New Friend Data to Add: ');
-                console.log(newFriend);
-
+                //post newFriend object to /api/friends route and get data from that route to update matched friend modal with the correct information and toggle it so it is displayed
                 $.post("/api/friends", newFriend, (data) => {
-                    console.log('Match: ');
-                    console.log(data);
                     $("#match-name").text(data.name);
                     $("#match-img").attr("src", data.photo);
 
@@ -261,6 +281,7 @@
                     resetInput();
                 })
             } else {
+                //If data does not pass form validation throw up an error modal alerting use to correctly fill out the form... used a modal instead of an alert because alerts make Sue want to cry... and a happy TA is one that gives good grades 
                 $("#error-modal").modal("toggle");
 
             }
